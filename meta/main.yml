@@ -4,7 +4,7 @@ galaxy_info:
   description: Install a list of packages
   author: Maximilian Fuxjäger
 
-  issue_tracker_url: http://example.com/issue/tracker
+  issue_tracker_url: https://gitlab.com/maxvalue-ansible/ansible-role-default_packages/-/issues
 
   license: MIT
 
