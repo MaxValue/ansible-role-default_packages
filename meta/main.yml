@@ -1,0 +1,40 @@
+galaxy_info:
+  namespace: maxvalue
+  role_name: default_packages
+  description: Install a list of packages
+  author: Maximilian Fuxjäger
+
+  issue_tracker_url: http://example.com/issue/tracker
+
+  license: MIT
+
+  min_ansible_version: "2.1"
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+
+  galaxy_tags:
+      - installer
+      - apt
+      - packages
+      - yum
+      - install
+      - package
+      - sudo
+      - update
+      - common
+      - role
+      - sysadmin
+      - upgrade
+      - setup
+      - base
+      - dnf
+      - homebrew
+      - installation
+      - updates
+      - init
+      - rpm
+
+dependencies: []

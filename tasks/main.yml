@@ -1,0 +1,36 @@
+---
+- name: Determining package names
+  # desc: >
+  #   Get the correct package names from the package variable. The ansible_pkg_mgr variable
+  #   is used to select the correct name, the text 'all' is used as key for fallbacks.
+  #   The ultimative fallback is '' which means to skip this package.
+  #   The result is a string of comma separated package names.
+  ansible.builtin.set_fact:
+    _packages_selected_raw: >-
+      {%- for package in packages -%}
+      {%- if package is mapping -%}
+          {{ package.get(ansible_pkg_mgr | lower, package.get('all', '')) }},
+      {%- else -%}
+          {{ package }},
+      {%- endif -%}
+      {%- endfor -%}
+
+- name: Cleaning package names list
+  # desc: >
+  #   Create an array from this comma separated string
+  #   and remove all empty strings from the resulting array.
+  ansible.builtin.set_fact:
+    _packages_selected: "{{ _packages_selected_raw | split(',') | reject('match', '^$') }}"
+
+- name: Install required packages
+  # desc: >
+  #   Install the given list of packages on the remote host.
+  #   The cache is updated first if apt or zypper are used as package manager.
+  #   Homebrew is updated first if it is used as a package manager.
+  become: true
+  ansible.builtin.package:
+    name: "{{ _packages_selected }}"
+    state: present
+    update_cache: "{{ (ansible_pkg_mgr | lower in ['apt', 'zypper']) | ternary(true, omit) }}"
+    update_homebrew: "{{ (ansible_pkg_mgr | lower in ['homebrew']) | ternary(true, omit) }}"
+...
